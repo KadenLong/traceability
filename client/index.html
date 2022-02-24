@@ -27,7 +27,6 @@
             axios
                 .post('/api/words', {word: wordInput.value})
                 .then(res => {
-                    container.innerHTML = ''
                     wordInput.value = ''
 
                     res.data.forEach(word => {
