@@ -26,14 +26,15 @@ let words = []
 
 app.post('/api/words', (req, res) => {
     let word = req.body.word
+    word = word.trim()
     
     const index = words.findIndex(wordName => wordName === word)
     
-    if (index === -1 && word !== '' && word.length > 10){
+    if (index === -1 && word.length > 10){
         words.push(word)
         rollbar.log(`word '${word}' added`)
         res.status(200).send(words)
-    } else if (word === '' || word.length < 10){
+    } else if (word.length < 10){
         rollbar.critical('Word not smart enough!')
         res.status(400).send('Word not smart enough')
     } else {
