@@ -4,10 +4,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="/css">
     <title>Document</title>
 </head>
 <body>
     <h1>This Webpage is on fire</h1>
+    <div class="container">
+        <form>
+            <input type="text">
+            <button>Submit!</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.querySelector('form')
+        const wordInput = document.querySelector('input')
+        const container = document.querySelector('.container')
+
+        function submitHandler(e) {
+            e.preventDefault()
+            axios
+                .post('/api/words', {word: wordInput.value})
+                .then(res => {
+                    container.innerHTML = ''
+                    wordInput.value = ''
+
+                    res.data.forEach(word => {
+                        container.innerHTML += `<h3>${word}</h3>`
+                    })
+                })
+                .catch(err => {
+                    nameInput.value = ''
+
+                    const notif = document.createElement('aside')
+                    notif.innerHTML = `<p>${err.response.data}</p>
+                    <button class='close'>close</button>`
+                    document.body.appendChild(notif)
+
+                    document.querySelectorAll('.close').forEach(btn => {
+                        btn.addEventListener('click', (e)=>{
+                            e.target.parentNode.remove()
+                        })
+                    })
+                })
+            }
+            
+        form.addEventListener('submit', submitHandler)
+    </script>
 </body>
 </html>
