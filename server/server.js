@@ -22,7 +22,7 @@ var rollbar = new Rollbar({
 // record a generic message and send it to Rollbar
 rollbar.log('Hello world!')
 
-let words = []
+//let words = []
 
 app.post('/api/words', (req, res) => {
     words.push(req.body.word)
