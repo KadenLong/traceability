@@ -14,6 +14,7 @@
         <form>
             <input type="text" placeholder="smart word here">
             <button>Submit... For Judgement</button>
+            <section></section>
         </form>
     </div>
 
@@ -21,6 +22,7 @@
         const form = document.querySelector('form')
         const wordInput = document.querySelector('input')
         const container = document.querySelector('.container')
+        const sec = document.querySelector('section')
 
         function submitHandler(e) {
             e.preventDefault()
@@ -28,9 +30,10 @@
                 .post('/api/words', {word: wordInput.value})
                 .then(res => {
                     wordInput.value = ''
+                    sec.innerHTML = ''
 
                     res.data.forEach(word => {
-                        container.innerHTML += `<h3>${word}</h3>`
+                        sec.innerHTML += `<h3>${word}</h3>`
                     })
                 })
                 .catch(err => {
