@@ -30,7 +30,7 @@ app.post('/api/words', (req, res) => {
     
     const index = words.findIndex(wordName => wordName === word)
     
-    if (index === -1 && word.length > 10){
+    if (index === -1 && word.length >= 10){
         words.push(word)
         rollbar.log(`word '${word}' added`)
         res.status(200).send(words)
