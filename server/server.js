@@ -22,13 +22,24 @@ var rollbar = new Rollbar({
 // record a generic message and send it to Rollbar
 rollbar.log('Hello world!')
 
-//let words = []
+let words = []
 
 app.post('/api/words', (req, res) => {
-    words.push(req.body.word)
-    console.log(words)
-    rollbar.log(`word '${req.body.word}' added`)
-    res.status(200).send(words)
+    let word = req.body.word
+    
+    const index = words.findIndex(wordName => wordName === word)
+    
+    if (index === -1 && word !== '' && word.length > 10){
+        words.push(word)
+        rollbar.log(`word '${word}' added`)
+        res.status(200).send(words)
+    } else if (word === '' || word.length < 10){
+        rollbar.critical('Word not smart enough!')
+        res.status(400).send('Word not smart enough')
+    } else {
+        rollbar.error('word already exists')
+        res.status(400).send('Word already in this DB. Nice try, nerd.')
+    }
 })
 
 
